@@ -1,5 +1,5 @@
 # client
-
+基于系统过滤的电影推荐系统，前端页面
 ## Project setup
 ```
 npm install
