@@ -13,9 +13,9 @@
           </el-col>
 
           <el-col :span="3" push="1"><div class="grid-content ep-bg-purple" />
-              <el-dropdown @command="usercommand">
+              <el-dropdown @command="usercommand" class="user-center-container">
                 <span class="el-dropdown-link" >
-                  {{ user.user_name_id }}<img :src="userFaceURL" style="width: 50px; height: 50px" />
+                  {{ user.user_name_id }}<i><img :src="userFaceURL" /></i>
                 </span>
                   <template #dropdown>
                     <el-dropdown-menu>
@@ -211,6 +211,13 @@ const menuClick = (index: string) => {
 <style scoped>
 .common-layout {
   /*background-image: linear-gradient(#59cde9, #0a2a88);*/
+}
+
+.el-dropdown-link img{
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  margin-left: 8px;
 }
 
 .hotContainer {

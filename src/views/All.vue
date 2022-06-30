@@ -1,13 +1,14 @@
 <template>
-  <div>
-
-  </div>
-
+  <v-header></v-header>
 </template>
 
 <script>
+import Header from '@/components/header.vue'
 export default {
-  name: "All"
+  name: "All",
+  components:{
+    'v-header': Header,
+  }
 }
 </script>
 

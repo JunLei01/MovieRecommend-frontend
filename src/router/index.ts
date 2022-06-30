@@ -29,6 +29,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'complete',
     component: ()=> import('@/views/Complete.vue')
   },
+  {
+    path: '/movie_page',
+    name: 'movie_page',
+    component: ()=> import('@/components/MoviePage.vue')
+  }
 ]
 
 const router = createRouter({
