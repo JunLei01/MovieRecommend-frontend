@@ -13,3 +13,7 @@ import 'element-plus/dist/index.css'
 // import { deleteRequest } from "@/utils/api";
 
 createApp(App).use(store).use(router).use(ElementPlus).mount('#app')
+const app = createApp(App)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}

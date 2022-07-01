@@ -1,15 +1,11 @@
 <template>
-  <v-header></v-header>
+  <el-icon><CaretTop /></el-icon>
 </template>
 
 <script>
-import Header from '@/components/header.vue'
-export default {
-  name: "All",
-  components:{
-    'v-header': Header,
-  }
-}
+import Header from '../components/header.vue'
+
+
 </script>
 
 <style scoped>

@@ -84,6 +84,104 @@ const usercommand = (command: string) => {
 
 
 <style scoped>
+.common-layout {
+  /*background-image: linear-gradient(#59cde9, #0a2a88);*/
+}
 
+.el-dropdown-link img{
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  margin-left: 8px;
+}
+
+.hotContainer {
+  width: 1400px;
+  top: 10px;
+  border: 1px solid #eaeaea;
+}
+
+.favoriateContainer {
+  line-height: 100px;
+  font-size: 50px;
+  background: #cac6c6;
+}
+
+.tabsContainer {
+  height: 700px;
+  width: 1500px;
+  background: #6b778c;
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+  text-align: center;
+}
+
+/*.el-carousel__item:nth-child {*/
+/*  background-color: #99a9bf;*/
+/*}*/
+
+/*.el-carousel__item:nth-child(2n + 1) {*/
+/*  background-color: #d3dce6;*/
+/*}*/
+
+
+.el-dropdown-link {
+  top: 5px;
+  font-size: 20px;
+  line-height: 1.7;
+
+}
+
+.el-row {
+  margin-bottom: 20px;
+  top: 10px;
+}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+.el-col {
+  border-radius: 4px;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #59cde9;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.time {
+  font-size: 12px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  padding: 0;
+  min-height: auto;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
 </style>
