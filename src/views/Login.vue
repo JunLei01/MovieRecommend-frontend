@@ -12,11 +12,11 @@
         </el-form-item>
 
         <el-form-item prop="code">
-            <el-input type="text" autocomplete="false" v-model="loginForm.code" placeholder="验证码" style="width: 250px; margin-right: 5px"></el-input>
+            <el-input type="text" autocomplete="false" v-model="loginForm.code" placeholder="验证码" style="width: 200px; margin-right: 5px"></el-input>
+            <img :src="captchUrl" @click="updateCaptcha">
         </el-form-item>
 
         <el-form-item>
-            <img :src="captchUrl">
             <el-checkbox v-model="checked" >记住密码</el-checkbox>
             <el-button type="primary" style="width: 100%" @click="submitLogin">登录</el-button>
         </el-form-item>
@@ -40,7 +40,8 @@ export default {
   name: "Login",
   data(){
     return{
-      captchUrl: '',
+      captchUrl: require('../assets/code.jpg'),
+      capchCode: '',
       loginForm:{
         username: '',
         password: '',
@@ -56,35 +57,49 @@ export default {
     }
   },
   methods:{
-    // updateCaptcha(){
-    //   this.captchUrl = '/captcha?time='+new Date();
-    // },
+    updateCaptcha(){
+      axios.post('/api/capture').then(res => {
+        this.capchCode = res.data.code
+        sessionStorage.setItem("code", res.data.code)
+      })
+    },
     submitLogin(){
+      console.log(this.capchCode)
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          let data = new FormData()
-          data.append('name', this.loginForm.username)
-          data.append('password', this.loginForm.password)
-          data.append('code', this.loginForm.code)
-          axios.post('/api/login', data).then(res => {
-            if ( res.data.code===200 ){
-              ElMessage.success({message: res.data.message})
-              setToken("username", res.data.userInfo['user_account_id'])
-              console.log(res.data.first)
-              if (res.data.first===0){
-                console.log(res.data.first)
-                router.push('/complete')
+          this.capchCode = sessionStorage.getItem("code")
+          console.log(this.loginForm.code, this.capchCode, 111111111)
+          if(this.loginForm.code === this.capchCode){
+            let data = new FormData()
+            data.append('name', this.loginForm.username)
+            data.append('password', this.loginForm.password)
+            axios.post('/api/login', data).then(res => {
+              console.log(res, typeof res)
+              if ( res.data.code===200 ){
+                if (res.data.first===0){
+                  ElMessage.warning({message: res.data.message})
+                  console.log(res.data.first)
+                  router.push('/complete')
+                }else {
+                  console.log('login successful！')
+                  ElMessage.success({message: res.data.message})
+                  setToken("username", res.data.userInfo['user_account_id'])
+                  console.log(res.data.first)
+                  sessionStorage.setItem("userInformation", JSON.stringify(res.data.userInfo))
+                  sessionStorage.setItem("type_recommend", JSON.stringify(res.data.type_recommend))
+                  sessionStorage.setItem('recommend', JSON.stringify(res.data.recommend))
+                  router.push('/home')
+                }
               }else {
-                console.log('login successful！')
-                sessionStorage.setItem("userInformation", JSON.stringify(res.data.userInfo))
-                sessionStorage.setItem("type_recommend", JSON.stringify(res.data.type_recommend))
-                router.push('/home')
+                console.log('login fail!')
+                ElMessage.error({message: res.data.message})
+                this.updateCaptcha()
               }
-            }else {
-              console.log('login fail!')
-              ElMessage.error({message: res.data.message})
-            }
-          })
+            })
+          }else {
+            ElMessage.error({message: "验证码错误！"})
+          }
+
         } else {
           ElMessage.error({
             showClose: true,

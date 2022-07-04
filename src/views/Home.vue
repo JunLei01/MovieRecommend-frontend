@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <Header></Header>
-    <el-main>
+    <el-main >
       <router-view />
       <el-carousel :interval="4000" height="600px" >
         <el-carousel-item v-for="item in topImgList" :key="item.url" class="carousel1">
@@ -33,7 +33,75 @@
               type="card"
               class="demo-tabs"
               @tab-click="handleClick">
-            <el-tab-pane label="你的口味" name="first">
+            <el-tab-pane label="推荐" name="first">
+              <el-row>
+                <el-col
+                    v-for="(item, index) in 9"
+                    :key="item"
+                    :span="4"
+                    :offset="index > 0 ? 1 : 0">
+                  <el-card :body-style="{ padding: '0px' }" @click.native="movieInfo(recommend_movie['id'][item])">
+                    <el-image :src="recommend_movie['poster'][item]" class="image"/>
+                    <div style="padding: 14px;">
+                      <el-row>
+                        <span style="font-size: large; font-weight: bold">{{recommend_movie['name'][item]}}</span>
+                      </el-row>
+                      <el-row>
+                        <div class="bottom">
+                          <el-col :span="4">
+                            <a style="font-size: 25px">{{recommend_movie['year'][item]}}</a>
+                          </el-col>
+                          <el-col :span="16">
+                            <el-rate
+                                style="margin-left: 10px"
+                                v-model="value"
+                                disabled/>
+                          </el-col>
+                          <el-col :span="1">
+                            <a>{{recommend_movie['evaluation'][item]}}</a>
+                          </el-col>
+                        </div>
+                      </el-row>
+                    </div>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="你可能喜欢" name="second">
+              <el-row>
+                <el-col
+                    v-for="(item, index) in 9"
+                    :key="item"
+                    :span="4"
+                    :offset="index > 0 ? 1 : 0">
+                  <el-card :body-style="{ padding: '0px' }"  @click.native="movieInfo(type_movie['id'][item])">
+                    <el-image :src="type_movie['poster'][item]" class="image"/>
+                    <div style="padding: 14px;">
+                      <el-row>
+                        <span style="font-size: large; font-weight: bold">{{type_movie['name'][item]}}</span>
+                      </el-row>
+                      <el-row>
+                        <div class="bottom">
+                          <el-col :span="4">
+                            <a style="font-size: 25px">{{type_movie['year'][item]}}</a>
+                          </el-col>
+                          <el-col :span="16">
+                            <el-rate
+                                style="margin-left: 10px"
+                                v-model="value"
+                                disabled/>
+                          </el-col>
+                          <el-col :span="1">
+                            <a>{{type_movie['evaluation'][item]}}</a>
+                          </el-col>
+                        </div>
+                      </el-row>
+                    </div>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="高评分电影" name="third">
               <el-row>
                 <el-col
                     v-for="(item, index) in hotImageList"
@@ -42,18 +110,32 @@
                     :offset="index > 0 ? 1 : 0">
                   <el-card :body-style="{ padding: '0px' }">
                     <el-image :src="item.url" class="image"/>
-                    <div style="padding: 14px">
-                      <span>Yummy hamburger</span>
-                      <div class="bottom">
-                        <time class="time">{{ currentDate }}</time>
-                        <el-button text class="button">Operating</el-button>
-                      </div>
+                    <div style="padding: 14px;">
+                      <el-row>
+                        <span style="float: left; font-size: large; font-weight: bold">海贼王剧场版-red</span>
+                      </el-row>
+                      <el-row>
+                        <div class="bottom">
+                          <el-col :span="4">
+                            <a style="font-size: 25px">2022</a>
+                          </el-col>
+                          <el-col :span="16">
+                            <el-rate
+                                style="margin-left: 10px"
+                                v-model="value"
+                                disabled/>
+                          </el-col>
+                          <el-col :span="1">
+                            <a>9.7</a>
+                          </el-col>
+                        </div>
+                      </el-row>
                     </div>
                   </el-card>
                 </el-col>
               </el-row>
             </el-tab-pane>
-            <el-tab-pane label="近期热映" name="second">
+            <el-tab-pane label="追影名单" name="fourth">
               <el-row>
                 <el-col
                     v-for="(item, index) in hotImageList"
@@ -62,25 +144,39 @@
                     :offset="index > 0 ? 1 : 0">
                   <el-card :body-style="{ padding: '0px' }">
                     <el-image :src="item.url" class="image"/>
-                    <div style="padding: 14px">
-                      <span>Yummy hamburger</span>
-                      <div class="bottom">
-                        <time class="time">{{ currentDate }}</time>
-                        <el-button text class="button">Operating</el-button>
-                      </div>
+                    <div style="padding: 14px;">
+                      <el-row>
+                        <span style="float: left; font-size: large; font-weight: bold">海贼王剧场版-red</span>
+                      </el-row>
+                      <el-row>
+                        <div class="bottom">
+                          <el-col :span="4">
+                            <a style="font-size: 25px">2022</a>
+                          </el-col>
+                          <el-col :span="16">
+                            <el-rate
+                                style="margin-left: 10px"
+                                v-model="value"
+                                disabled/>
+                          </el-col>
+                          <el-col :span="1">
+                            <a>9.7</a>
+                          </el-col>
+                        </div>
+                      </el-row>
                     </div>
                   </el-card>
                 </el-col>
               </el-row>
             </el-tab-pane>
-            <el-tab-pane label="高评分电影" name="third">Role</el-tab-pane>
-            <el-tab-pane label="追影名单" name="fourth">Task</el-tab-pane>
           </el-tabs>
         </el-col>
       </el-row>
     </el-main>
 
-    <el-footer height="300px" style="background: #241e22"></el-footer>
+    <el-footer height="300px">
+      <Footer></Footer>
+    </el-footer>
   </div>
 </template>
 
@@ -88,16 +184,22 @@
 import { reactive, toRefs, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import router from "@/router";
-import { getUser, getType } from "../utils/getData"
-import { removeToken } from "@/utils/setToken";
+import { get_brief_movie_info, get_brief_movie_info1 } from "../utils/getData"
 import { ElMessage } from "element-plus";
 import Header from '../components/header.vue'
+import Footer from '../components/footer.vue'
+import axios from "axios";
+import { defineComponent, readonly } from "vue";
+
+const footerList = readonly([
+  "关于 | 帮助 | 条款 | 反馈",
+  "Copyright  2019 Zhou-Junlei",
+])
 
 
 //获取数据
-
-let type_recommend = getType("type_recommend")
-
+const type_movie = get_brief_movie_info('type_recommend')
+const recommend_movie = get_brief_movie_info1('recommend')
 
 
 
@@ -107,31 +209,48 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
 
+const movieInfo = (movie_id: string) => {
+  // sessionStorage.removeItem("movie_info")
+  let data = new FormData()
+  data.append('id', movie_id)
+  axios.post('/api/movie_info', data).then(res => {
+    console.log(res)
+    if(res.data.code===200){
+      console.log(res.data.movie, res.data.comment)
+      sessionStorage.setItem("movie_info", JSON.stringify(res.data.movie))
+      sessionStorage.setItem("movie_comment", JSON.stringify(res.data.comment))
+      router.push('/movie_page')
+    } else {
+      console.log('error')
+    }
+  })
+}
+
 const toppic = reactive({
   topImgList: [
     { url:require('../assets/topMovie/spy.webp') },
     { url:require('../assets/topMovie/111.webp') },
     { url:require('../assets/topMovie/onepiecs.webp') },
-    { url:require('../assets/topMovie/1680.jpg')},
+    { url:require('../assets/topMovie/1680.jpg') },
+    { url: require('../assets/topMovie/10.jpg') }
   ],
   hotImageList: [
-    { url:require('../assets/favorite/red.jpg') },
-    { url:require('../assets/favorite/5.jpg') },
-    { url:require('../assets/favorite/7.jpg') },
-    { url:require('../assets/favorite/10.jpg') },
-    { url:require('../assets/favorite/11.jpg') },
-    { url:require('../assets/favorite/13.jpg') },
-    { url:require('../assets/favorite/16.jpg') },
-    { url:require('../assets/favorite/17.jpg') },
-    { url:require('../assets/favorite/21.jpg') },
+    { url:require('../assets/poster/7.jpg') },    //肖申克
+    { url:require('../assets/poster/25.jpg') },   // 霸王别姬
+    { url:require('../assets/poster/15.jpg') },   //阿甘
+    { url:require('../assets/poster/13.jpg') },   //泰坦
+    { url:require('../assets/poster/14.jpg') },   //杀手
+    { url:require('../assets/poster/69.jpg') },   //美丽人生
+    { url:require('../assets/poster/10.jpg') },   //千与千寻
+    { url:require('../assets/poster/78.jpg') },   //辛德勒的名单
+    { url:require('../assets/poster/31.jpg') },   //盗梦空间
   ],
 })
 const { topImgList, hotImageList } = toRefs(toppic)
 
-const menuClick = (index: string) => {
-  router.push(index)
-}
 
+
+const value = ref(3.7)
 
 </script>
 
@@ -211,7 +330,6 @@ const menuClick = (index: string) => {
 }
 
 .bottom {
-  margin-top: 13px;
   line-height: 12px;
   display: flex;
   justify-content: space-between;
@@ -224,8 +342,8 @@ const menuClick = (index: string) => {
 }
 
 .image {
-  width: 100%;
-  height: 100%;
+  width: 270px;
+  height: 400px;
   display: block;
 }
 

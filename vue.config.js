@@ -14,7 +14,8 @@ proxyObj['/api']={
   changeOrigin: true,
   //不重写请求地址
   pathReWrite: {
-    '/api': ''
+    '/api': '',
+    '/A': '',
   }
 }
 

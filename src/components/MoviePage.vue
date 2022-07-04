@@ -4,7 +4,7 @@
     <el-row>
       <el-col :span="20" :push="2" class="movie-container">
         <div style="margin-top: 50px;">
-          <span class="title-container">肖申克的救赎 The Shawshank Redemption</span>
+          <span class="title-container">{{ movie['movie_name'] }}</span>
         </div>
         <div style="margin-top: 40px; float: left;">
           <img :src="posterURL" style="margin-left: 200px"/>
@@ -15,15 +15,15 @@
               :column="1"
               size="default"
               direction="horizontal">
-            <el-descriptions-item ><a style="font-size: medium">导演：</a><a href="" style="color: #37a; font-size: medium">弗兰克·德拉邦特</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">编剧：</a><a href="" style="color: #37a; font-size: medium">弗兰克·德拉邦特 / 斯蒂芬·金</a> </el-descriptions-item>
-            <el-descriptions-item :span="2"><a style="font-size: medium">主演：</a><a style="font-size: medium;">蒂姆·罗宾斯 / 摩根·弗里曼 / 鲍勃·冈顿 / 威廉姆·赛德勒 / 克兰西·布朗 / 吉尔·贝罗斯 / 马克·罗斯顿 / 詹姆斯·惠特摩 / 杰弗里·德曼 / 拉里·布兰登伯格 / 尼尔·吉恩托利 / 布赖恩·利比 / 大卫·普罗瓦尔 / 约瑟夫·劳格诺 / 祖德·塞克利拉 / 保罗·麦克兰尼 / 芮妮·布莱恩 / 阿方索·弗里曼 / V·J·福斯特 / 弗兰克·梅德拉诺 / 马克·迈尔斯 / 尼尔·萨默斯 / 耐德·巴拉米 / 布赖恩·戴拉特 / 唐·麦克马纳斯</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">类型：</a><a href="" style="color: #37a; font-size: medium">剧情/犯罪</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">制片国家/地区：</a><a style="font-size: medium">美国</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">语言：</a><a style="font-size: medium">英语</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">上映日期：</a><a style="font-size: medium">1994-09-10(多伦多电影节) / 1994-10-14(美国)</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">片长：</a><a style="font-size: medium">142分钟</a></el-descriptions-item>
-            <el-descriptions-item ><a style="font-size: medium">IMDb：</a><a style="font-size: medium">tt0111161</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">导演：</a><a href="" style="color: #37a; font-size: medium">{{ movie['movie_director'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">编剧：</a><a href="" style="color: #37a; font-size: medium">{{ movie['movie_screenwriter'] }}</a> </el-descriptions-item>
+            <el-descriptions-item :span="2"><a style="font-size: medium">主演：</a><a style="font-size: medium;">{{ movie['movie_roles'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">类型：</a><a href="" style="color: #37a; font-size: medium">{{ movie['movie_style'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">制片国家/地区：</a><a style="font-size: medium">{{ movie['movie_country'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">语言：</a><a style="font-size: medium">{{ movie['movie_language'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">上映日期：</a><a style="font-size: medium">{{ movie['movie_date'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">片长：</a><a style="font-size: medium">{{ movie['movie_long'] }}</a></el-descriptions-item>
+            <el-descriptions-item ><a style="font-size: medium">IMDb：</a><a style="font-size: medium">{{ movie['movie_imdb'] }}</a></el-descriptions-item>
           </el-descriptions>
         </div>
         <div class="card-container">
@@ -35,7 +35,7 @@
             </el-row>
             <el-row>
               <el-col :span="6">
-                <h1 style="float: left; margin-left: 7px;">9.7</h1>
+                <h1 style="float: left; margin-left: 7px;">{{ movie['movie_evaluation'] }}</h1>
               </el-col>
               <el-col :span="15" :push="1" style="float: right;">
                 <el-rate
@@ -90,7 +90,7 @@
         </div>
 
         <div class="introduction-container">
-          <h3 style="float: left; margin-left: 200px; margin-top: 40px">肖申克的救赎的剧情简介······</h3>
+          <h3 style="float: left; margin-left: 200px; margin-top: 40px">{{ movie['movie_name'] }}的剧情简介······</h3>
         </div>
         <div class="introduction-container1">
           <div style="background: #42b983; width: 1500px">
@@ -102,8 +102,8 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="4" :push="4">
-        <h3 >肖申克的救赎的影评······</h3>
+      <el-col :span="8" :push="2">
+        <h3 >{{ movie['movie_name'] }}的影评······</h3>
       </el-col>
     </el-row>
 
@@ -112,19 +112,19 @@
         <div class="review-list">
           <el-timeline style="margin-top: 10px; margin-left: 50px">
             <el-timeline-item placement="bottom"
-                              v-for="item in 10"
-                              :key="item">
+                              v-for="(item, index) in comments"
+                              :key="index">
               <el-card class="comments-cards">
                 <el-row>
                   <el-col :span="12">
                     <div class="comments-user" >
-                      <a style="float: left; margin-left: 30px; font-size: large; font-weight: lighter">爱吃糖果的喵</a>
+                      <a style="float: left; margin-left: 30px; font-size: large; font-weight: lighter">{{ item['user_name'] }}</a>
                       <el-rate
                           v-model="value"
                           disabled
                           score-template="{value} points"
                           style="float: left; margin-left: 5px; margin-bottom: 3px" />
-                      <span style="float: left; margin-left: 100px; margin-top: 5px">2022年6月3日 15:04:46</span>
+                      <span style="float: left; margin-left: 100px; margin-top: 5px">{{ item['time'] }}</span>
 
                     </div>
                   </el-col>
@@ -138,12 +138,11 @@
                 <el-row >
                   <div class="comments-content">
                     <el-row>
-                      <a style="color: #37a; font-size: medium"> 十年·肖申克的救赎</a>
+                      <a style="color: #37a; font-size: medium"> {{ item['title'] }}</a>
                     </el-row>
                     <el-row>
                       <div style="margin-top: 1px">
-                        <span style="margin-top: 0px;">  距离斯蒂芬·金（Stephen King）和德拉邦特（Frank Darabont）们缔造这部伟大的作品已经有十年了。我知道美好的东西想必大家都能感受，但是很抱歉，我的聒噪仍将一如既往。 在我眼里，肖申克的救赎与信念、自由和友谊有关。 ［1］信 念 瑞德（Red）说，希望是危险的东西，是精...版权归作者所有，任何形式转载请联系作者。
-        当安迪不顾一切地在监狱的喇叭里放《费加罗的婚礼》（Le Nozze di Figaro）时，镜头缓缓划过正在广场上放风的犯人们和狱警们。他们叫人感动地静立当地，抛却所有愤懑、狠毒和怨怼，沐浴着我从未觉得如此自由的阳光。</span>
+                        <span style="margin-top: 0px;"> {{ item['comment'] }}</span>
                       </div>
                     </el-row>
 
@@ -151,9 +150,9 @@
                 </el-row>
                 <el-row>
                   <div class="comments-info">
-                    <el-button :icon="CaretTop">12345</el-button>
-                    <el-button :icon="CaretBottom">12345</el-button>
-                    <el-button>13264回复</el-button>
+                    <el-button :icon="CaretTop">{{ item['up'] }}</el-button>
+                    <el-button :icon="CaretBottom">{{ item['down'] }}</el-button>
+                    <el-button>{{ item['response'] }}</el-button>
                   </div>
                 </el-row>
               </el-card>
@@ -173,10 +172,17 @@
 import Header from '@/components/header.vue'
 import { ref } from 'vue';
 import { CaretTop, CaretBottom, Edit, Star, Message } from '@element-plus/icons-vue'
+import { getType } from "../utils/getData"
 
-const posterURL = require('@/assets/poster/7.jpg')
+
+const movie = getType('movie_info')
+const comments = getType('movie_comment')
+
+const posterURL = require("@/assets/poster/" + movie['movie_id'] + ".jpg")
 const value = ref(3.7)
 const evaluationValue = ref()
+
+
 
 const checked = ref(false)
 const checked1 = ref(false)
@@ -196,7 +202,7 @@ const onChange1 = (status: boolean) => {
 .movie-container {
 }
 .title-container {
-  margin-right: 480px;
+  /*margin-right: 480px;*/
   font-size: 35px;
   font-weight: 700;
 }

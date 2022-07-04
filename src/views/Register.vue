@@ -108,7 +108,7 @@ export default {
                 }else {
                   console.log(res.data.message)
                   ElMessage.success({ message: res.data.message })
-                  router.push('\\'+'home')
+                  router.push('\\'+'/')
                 }
               }
           )

@@ -11,7 +11,7 @@
         <el-upload
               class="avatar-uploader"
               headers=""
-              :action="imageUrl"
+              action="/api/face"
               :drag="true"
               :show-file-list="false"
               :on-success="handleAvatarSuccess">
@@ -68,7 +68,7 @@
             </el-col>
           </el-form-item>
         </el-form>
-        <el-button style="margin-top: 350px; margin-right: 0px" type="primary"  @click="next">重置</el-button>
+        <el-button style="margin-top: 350px; margin-right: 0px" type="primary"  @click="cleanAll">重置</el-button>
         <el-button style="margin-top: 350px; margin-right: 0px" type="primary"  @click="next">下一步</el-button>
       </div>
 
@@ -142,7 +142,6 @@ const next = () => {
 
 //头像上传
 const imageUrl = ref('')
-console.log(imageUrl)
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
     uploadFile
@@ -151,7 +150,6 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  console.log(11111, rawFile.type, imageUrl, rawFile)
   if (rawFile.type !== 'image/jpeg') {
     ElMessage.error('Avatar picture must be JPG format!')
     return false
@@ -161,6 +159,9 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   }
   return true
 }
+
+
+
 
 const checkedTypes = ref(['科幻', '动漫'])
 const types= ['剧情', '灾难', '科幻', '动漫']
@@ -177,7 +178,6 @@ const loadingScreen = () => {
     loading.close()
   }, 2000)
 }
-
 </script>
 
 

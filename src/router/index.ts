@@ -33,6 +33,33 @@ const routes: Array<RouteRecordRaw> = [
     path: '/movie_page',
     name: 'movie_page',
     component: ()=> import('@/components/MoviePage.vue')
+  },
+  {
+    path: '/movie_list',
+    name: 'movie_list',
+    component: ()=> import('@/views/movieList.vue')
+  },
+  {
+    path: '/person_center',
+    name: 'person_center',
+    component: ()=> import('@/views/person_Center.vue'),
+    children: [
+      {
+        path: '/myspace',
+        name: 'myspace',
+        component: ()=> import('@/views/myType.vue')
+      },
+      {
+        path: '/history',
+        name: 'history',
+        component: ()=> import('@/views/myHistory.vue')
+      },
+      {
+        path: '/favorite',
+        name: 'favorite',
+        component: ()=> import('@/views/myFavorite.vue')
+      }
+    ]
   }
 ]
 
