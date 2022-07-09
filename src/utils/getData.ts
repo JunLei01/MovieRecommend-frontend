@@ -21,8 +21,6 @@ export function getType(key:string) {
 }
 
 
-
-
 export function get_brief_movie_info(key:string) {
     let type_recommend = getType(key);
     var i = 0;
@@ -33,12 +31,12 @@ export function get_brief_movie_info(key:string) {
     const id: string[]=[];
     for(i=0; i<10; i++) {
         // let j = Math.random() * (40 + 1) + 0;
-        let a = Math.random() * 40
+        let a = Math.random() * 48
         let j = parseInt(String(a))
         if (j > i) {
             j = j-i
         }
-        names[i] = type_recommend[j]['movie_name'];
+        names[i] = type_recommend[j]['movie_name']
         years[i] = type_recommend[j]['movie_year']
         posters[i] = require("@/assets/poster/" + type_recommend[j]['movie_id'] + ".jpg");
         evaluation[i] = type_recommend[j]['movie_evaluation']

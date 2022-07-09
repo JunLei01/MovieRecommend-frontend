@@ -45,8 +45,8 @@ const routes: Array<RouteRecordRaw> = [
     component: ()=> import('@/views/person_Center.vue'),
     children: [
       {
-        path: '/myspace',
-        name: 'myspace',
+        path: '/my_comment',
+        name: 'my_comment',
         component: ()=> import('@/views/myType.vue')
       },
       {

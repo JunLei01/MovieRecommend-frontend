@@ -1,42 +1,44 @@
 <template>
   <el-col :span="14" :push="5">
     <el-steps :active="active" finish-status="success" style="margin-top: 100px" align-center>
-      <el-step title="设置个人信息" />
-      <el-step title="选择你的爱好" />
-      <el-step title="完成" />
+      <el-step title="设置个人信息"/>
+      <el-step title="选择你的爱好"/>
+      <el-step title="完成"/>
     </el-steps>
 
     <div class="complete-container">
       <div v-if="active==0">
         <el-upload
-              class="avatar-uploader"
-              headers=""
-              action="/api/face"
-              :drag="true"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess">
-<!--              :before-upload="beforeAvatarUpload">-->
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus />Face</el-icon>
+            class="avatar-uploader"
+            headers=""
+            action="/api/face"
+            :drag="true"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess">
+          <!--              :before-upload="beforeAvatarUpload">-->
+          <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+          <el-icon v-else class="avatar-uploader-icon">
+            <Plus/>
+            Face
+          </el-icon>
         </el-upload>
         <el-form
-              ref="form"
-              class="info-container"
-              :model="sizeForm"
-              label-width="auto"
-              :label-position="labelPosition"
-              :size="size">
-            <el-form-item label="输入昵称">
-              <el-input v-model="sizeForm.name" />
-            </el-form-item>
-            <el-form-item label="Activity zone">
-              <el-select
-                  v-model="sizeForm.region"
-                  placeholder="请选择你的性别">
-                <el-option label="男" value="男" />
-                <el-option label="女" value="女" />
-              </el-select>
-            </el-form-item>
+            ref="userForm"
+            class="info-container"
+            :model="sizeForm"
+            label-width="auto"
+            :label-position="labelPosition">
+          <el-form-item label="输入昵称">
+            <el-input v-model="sizeForm.name" placeholder="请再次输入用户名！"/>
+          </el-form-item>
+          <el-form-item label="Activity zone">
+            <el-select
+                v-model="sizeForm.gender"
+                placeholder="请选择你的性别">
+              <el-option label="男" value="男"/>
+              <el-option label="女" value="女"/>
+            </el-select>
+          </el-form-item>
 
           <el-form-item
               prop="email"
@@ -59,7 +61,7 @@
           <el-form-item label="Activity time">
             <el-col :span="11">
               <el-date-picker
-                  v-model="sizeForm.date1"
+                  v-model="sizeForm.date"
                   type="date"
                   label="Pick a date"
                   placeholder="Pick a date"
@@ -68,27 +70,25 @@
             </el-col>
           </el-form-item>
         </el-form>
-        <el-button style="margin-top: 350px; margin-right: 0px" type="primary"  @click="cleanAll">重置</el-button>
-        <el-button style="margin-top: 350px; margin-right: 0px" type="primary"  @click="next">下一步</el-button>
+        <el-button style="margin-top: 350px; margin-right: 0px" type="primary" @click="cleanAll">重置</el-button>
+        <el-button style="margin-top: 350px; margin-right: 0px" type="primary" @click="next">下一步</el-button>
       </div>
 
       <div v-if="active==1">
         <div class="info-container-hobby">
-          <el-checkbox-group v-model="checkedTypes" :min="0" :max="3" style="margin-top: 80px" size="large">
-            <el-checkbox v-for="city in types" :key="city" :label="city">{{
-                city
-              }}</el-checkbox>
+          <el-checkbox-group v-model="checkedTypes" :min="0" :max="5" style="margin-top: 80px" size="large"  @change="handleCheckedTypesChange">
+            <el-checkbox v-for="(type, index) in types" :key="index" :label="type" style="font-size: medium">{{ type }}
+            </el-checkbox>
           </el-checkbox-group>
         </div>
-        <el-button style="margin-top: 230px; margin-right: 0px" type="primary"  @click="next">下一步</el-button>
+        <el-button style="margin-top: 230px; margin-right: 0px" type="primary" @click="next2">下一步</el-button>
       </div>
 
       <div v-if="active==2">
         <div style="margin-top: 150px">
           <h1>Welcome to Panda MR!!</h1>
         </div>
-
-        <el-button style="margin-top: 130px; margin-right: 0px" type="primary"  @click="loadingScreen">完成</el-button>
+        <el-button style="margin-top: 130px; margin-right: 0px" type="primary" @click="loadingScreen">完成</el-button>
       </div>
     </div>
   </el-col>
@@ -96,10 +96,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import {ref, reactive} from 'vue'
 import {ElMessage, ElLoading} from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import type { UploadProps, FormInstance } from 'element-plus'
+import {Plus} from '@element-plus/icons-vue'
+import type {UploadProps, FormInstance} from 'element-plus'
+import axios from "axios";
+import router from "@/router";
+import {setToken} from "@/utils/setToken";
 
 let data = new FormData()
 const radio1 = ref('New York')
@@ -122,22 +125,27 @@ const labelPosition = ref('top')
 
 const sizeForm = reactive({
   name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  gender: '',
+  date: '',
 })
+
+
 
 function onSubmit() {
   console.log('submit!')
 }
+
 //步骤条
 const active = ref(0)
 const next = () => {
   if (active.value++ > 2) active.value = 0
+  data.append("user_name", sizeForm.name)
+  data.append("sex", sizeForm.gender)
+  data.append('date', sizeForm.date)
+  data.append('email', dynamicValidateForm.email)
+}
+const back = () => {
+  if (active.value > 2) active.value = 0
 }
 
 //头像上传
@@ -161,13 +169,37 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 }
 
 
-
-
 const checkedTypes = ref(['科幻', '动漫'])
-const types= ['剧情', '灾难', '科幻', '动漫']
+const types = ['剧情', '喜剧', '动作', '爱情', '科幻', '动画', '悬疑', '惊悚',
+  '恐怖', '犯罪', '音乐', '歌舞', '传记', '历史', '战争', '西部', '奇幻', '冒险', '灾难', '武侠']
+
+const user_types: string = ""
+const handleCheckedTypesChange = (value: string[]) => {
+  data.append('user_types', String(value))
+}
+
+const next2 = () => {
+  if (active.value++ > 2) active.value = 0
+  console.log(data)
+  axios.post('/api/complete', data).then(res => {
+    console.log(res, typeof res)
+    if (res.data.code === 200) {
+      console.log('login successful！')
+      ElMessage.success({message: res.data.message})
+      setToken("username", res.data.userInfo['user_account_id'])
+      console.log(res.data.first)
+      sessionStorage.setItem("userInformation", JSON.stringify(res.data.userInfo))
+      sessionStorage.setItem("type_recommend", JSON.stringify(res.data.type_recommend))
+      sessionStorage.setItem('recommend', JSON.stringify(res.data.recommend))
+    } else {
+      console.log('login fail!')
+      ElMessage.error({message: res.data.message})
+    }
+  })
+}
+
 
 const fullscreenLoading = ref(false)
-
 const loadingScreen = () => {
   const loading = ElLoading.service({
     lock: true,
@@ -177,10 +209,9 @@ const loadingScreen = () => {
   setTimeout(() => {
     loading.close()
   }, 2000)
+  router.push('/home')
 }
 </script>
-
-
 
 
 <style scoped>
@@ -194,6 +225,7 @@ const loadingScreen = () => {
   box-shadow: 0 0 25px #cac6c6;
   background-color: #fff;
 }
+
 .avatar-uploader .avatar {
   width: 178px;
   height: 178px;
@@ -202,17 +234,18 @@ const loadingScreen = () => {
 </style>
 
 
-
 <style>
 .el-radio-group {
   margin-right: 12px;
 }
+
 .info-container {
   position: absolute;
   top: 10px;
   right: 10px;
   width: 400px;
 }
+
 .info-container-hobby {
 
 }

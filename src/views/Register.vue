@@ -7,7 +7,7 @@
         <el-input type="text" autocomplete="false" v-model="ruleForm.name" placeholder="名字"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off" placeholder="输入密码"></el-input>
+        <el-input type="password" v-model="ruleForm.pass" autocomplete="off" placeholder="输入密码(不少于6位）"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass">
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder="确认密码"></el-input>
@@ -56,7 +56,7 @@ export default {
     };
     var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('请输入至少6位数密码'));
       } else {
         if (this.ruleForm.checkPass !== '') {
           this.$refs.ruleForm.validateField('checkPass');

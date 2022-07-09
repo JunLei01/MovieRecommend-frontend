@@ -36,7 +36,7 @@
               <div>导演: <span>{{ movies.director[item]}}</span></div>
               <div>主演: <span :title="movies.role[item]">{{ movies.role[item] }}</span></div>
               <div>
-                <p :title="剧情简介" >aaaaaaaaa</p>
+                <p :title="剧情简介" ></p>
               </div>
             </div>
           </div>

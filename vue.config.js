@@ -15,13 +15,13 @@ proxyObj['/api']={
   //不重写请求地址
   pathReWrite: {
     '/api': '',
-    '/A': '',
+
   }
 }
 
 module.exports={
   devServer:{
-    host:'localhost',
+    host:'0.0.0.0',
     port:8080,
     proxy: proxyObj
   }

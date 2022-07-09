@@ -31,13 +31,13 @@
         <el-col :span="3" :push="2"><div class="grid-content ep-bg-purple" />
           <el-dropdown @command="usercommand">
                 <span class="el-dropdown-link" style="color: #eaeaea">
-                  {{ user.user_name_id }}<img :src="userFaceURL" style="width: 50px; height: 50px; " />
+                  {{ user.user_name }}<img :src="userFaceURL" style="width: 50px; height: 50px; " />
                 </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="/A/surf_movie/">个人中心</el-dropdown-item>
-                <el-dropdown-item command="2">观看历史</el-dropdown-item>
-                <el-dropdown-item command="3">我的收藏</el-dropdown-item>
+                <el-dropdown-item command="/person_center">个人中心</el-dropdown-item>
+                <el-dropdown-item command="/history">观看历史</el-dropdown-item>
+                <el-dropdown-item command="/favorite">我的收藏</el-dropdown-item>
                 <el-dropdown-item command="4">设置</el-dropdown-item>
                 <el-dropdown-item command="/">
                   退出登录
@@ -56,23 +56,32 @@ import { getUser } from "@/utils/getData";
 import {removeToken} from "@/utils/setToken";
 import router from "@/router";
 import axios from "axios";
+import {ElMessage} from "element-plus";
 
 const logoURL = require('../assets/APPLOGO.jpg')
 let user = getUser("userInformation")
 
-const userFaceURL = require("../assets/face/" + user.user_name_id + ".jpg")
+const userFaceURL = require("../assets/face/xdx.jpg")
 
 //个人中心下拉菜单响应
 const usercommand = (command: string) => {
   if (command==='/') {
     sessionStorage.clear()
     removeToken("username")
-  } else{
-    console.log(command)
-    axios.post('/A/surf_movie/', "aaaaaaa").then(res =>{
-      console.log(22222222222)
+    router.push(command)
+  } else {
+    let data = new FormData
+    data.append('account', user['user_account'])
+    axios.post('/api/get_record', data).then(res => {
+      if (res.data.code === 200) {
+        sessionStorage.setItem('history', JSON.stringify(res.data.surf))
+        sessionStorage.setItem('favorite', JSON.stringify(res.data.favorite))
+      }else {
+        ElMessage.warning({message: "用户数据丢失！"})
+      }
     })
-  }
+    router.push(command)
+    }
 }
 
 const menuClick = (index: string) => {

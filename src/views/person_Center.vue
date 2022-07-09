@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <el-row style="background: #42b983">
+  <el-row style="background: #EAEAEA">
     <el-col :span="4" :push="4" >
       <div class="demo-image__preview">
         <el-image
@@ -21,7 +21,7 @@
           <h3>昵称：</h3>
         </el-col>
         <el-col :span="8">
-          <h4>fasdfagaerga</h4>
+          <h4 style="float: left">{{ user['user_name'] }}</h4>
         </el-col>
       </el-row>
       <el-row>
@@ -29,7 +29,7 @@
             <h3>账号：</h3>
           </el-col>
           <el-col :span="8">
-            <h4>fasdfagaerga</h4>
+            <h4 style="float: left">{{ user['user_account'] }}</h4>
           </el-col>
       </el-row>
       <el-row>
@@ -37,7 +37,7 @@
           <h3>电话：</h3>
         </el-col>
         <el-col :span="8">
-          <h4>fasdfagaerga</h4>
+          <h4 style="float: left">{{ user['user_phone'] }}</h4>
         </el-col>
       </el-row>
       <el-row>
@@ -45,7 +45,7 @@
           <h3>邮箱：</h3>
         </el-col>
         <el-col :span="8">
-          <h4>fasdfagaerga</h4>
+          <h4 style="float: left">{{ user['user_email'] }}</h4>
         </el-col>
       </el-row>
       <el-row>
@@ -53,84 +53,50 @@
           <h3>简介：</h3>
         </el-col>
         <el-col :span="8">
-          <h4>fasdfagaerga</h4>
+          <h4 style="float: left">该用户很懒什么也没写！</h4>
         </el-col>
       </el-row>
     </el-col>
   </el-row>
 
-  <el-row height="200px">
-    <el-col :span="10" :push="7" style="background: #59cde9">
+  <el-row height="200px" style="background: #cac6c6">
+    <el-col :span="8" :push="8">
       <el-menu
           :default-active="activeIndex"
           class="el-menu-demo"
           mode="horizontal"
+          style="background: #cac6c6"
           @select="handleSelect">
-        <el-menu-item index="1"><h2>我的元素</h2></el-menu-item>
-        <el-menu-item index="2"><h2>观看记录</h2></el-menu-item>
-        <el-menu-item index="3"><h2>我的收藏</h2></el-menu-item>
-        <el-menu-item index="4"><h2>我的评论</h2></el-menu-item>
+        <el-menu-item index="/history" style="margin-left: 60px"><h2>观看记录</h2></el-menu-item>
+        <el-menu-item index="/favorite" style="margin-left: 60px"><h2>我的收藏</h2></el-menu-item>
+        <el-menu-item index="/my_comment" style="margin-left: 60px"><h2>我的评论</h2></el-menu-item>
       </el-menu>
     </el-col>
   </el-row>
-
-<!--  <el-row>-->
-<!--    <el-col :span="12" :push="6" style="background: #59cde9">-->
-<!--      <div class="my-type-container">-->
-<!--      </div>-->
-<!--    </el-col>-->
-<!--  </el-row>-->
-  <div v-for="(item, index) in 20" class="history-container">
-    <el-row>
-      <el-col :span="4" :push="5">
-        <div class="movie-img-contianer">
-          <el-image :src="require('../assets/poster/3.jpg')" fit="cover" />
-        </div><el-divider />
-      </el-col>
-      <el-col :span="15" :push="3">
-        <div class="movie-container">
-          <el-row>
-            <el-col :span="12">
-              <span style="font-size: 25px; color: #000">我和我的父辈</span>
-            </el-col>
-            <el-col :span="4">
-              <span>9.2分</span>
-            </el-col>
-          </el-row>
-          <el-row style="margin-top: 10px">
-            <span style="font-size: 18px; color: #000; height: 30px; font-weight: bold">导演：</span>
-            <span style="height: 30px">刘江江</span>
-          </el-row>
-          <el-row style="margin-top: 10px">
-            <span style="font-size: 18px; color: #000; height: 30px; font-weight: bold">演员：</span>
-            <span style="height: 30px; margin-top: 3px">'朱一龙','杨恩又','王戈','刘陆','罗京民','吴倩','郑卫莉','陈创','李春嫒','钟宇升','刘亚津','小爱','韩延'</span>
-          </el-row>
-          <el-row style="margin-top: 10px">
-            <span style="font-size: 18px; color: #000; height: 30px; font-weight: bold">简介</span>
-          </el-row>
-          <el-row style="margin-top: 10px">
-            <span style="font-size: 15px; color: #000; height: 30px">2022-7-4 18:30:34</span>
-          </el-row>
-        </div><el-divider />
-      </el-col>
-    </el-row>
-  </div>
-
+  <router-view></router-view>
 </template>
 
 
 <script lang="ts">
-import Header from "../components/header.vue";
-import Movie from "@/views/movieList.vue";
+import Header from "@/components/header.vue";
+import router from "@/router";
+import { getUser } from '@/utils/getData'
 
 export default {
-  components: {Movie, Header},
+  components: { Header },
   setup(){
-    const url = require('../assets/face/xks.jpeg')
+
     const srcList = require('../assets/face/zjl.jpg')
+    const handleSelect = (index: string) => {
+      router.push(index)
+    }
+    const user = getUser('userInformation')
+    const url = require('../assets/face/xdx.jpg')
     return {
       url,
       srcList,
+      handleSelect,
+      user,
     }
   }
 }
@@ -165,6 +131,7 @@ export default {
   background: #59cde9;
 }
 .movie-img-contianer {
+  margin-top: 30px;
   width: 135px;
   height: 200px;
 }
@@ -174,10 +141,10 @@ export default {
   width: 80%;
   height: 80%;
   margin-left: 50px;
-  background: #42b983;
 }
 .history-container {
-  width: 80%;
+  margin-left: 200px;
+  width: 70%;
 
 }
 

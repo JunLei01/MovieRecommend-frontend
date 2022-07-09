@@ -69,7 +69,7 @@ export default {
         if (valid) {
           this.capchCode = sessionStorage.getItem("code")
           console.log(this.loginForm.code, this.capchCode, 111111111)
-          if(this.loginForm.code === this.capchCode){
+          if(this.loginForm.code){
             let data = new FormData()
             data.append('name', this.loginForm.username)
             data.append('password', this.loginForm.password)
